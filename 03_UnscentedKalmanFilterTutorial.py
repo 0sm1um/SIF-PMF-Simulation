@@ -33,10 +33,9 @@ from stonesoup.updater.kalman import UnscentedKalmanUpdater
 
 from stonesoup.smoother.kalman import  UnscentedKalmanSmoother, SIFKalmanSmoother
 
-
 # np.random.seed(42) 
 
-MC = 1000
+MC = 30
 
 rmseSIFmc = np.zeros((4,MC))
 rmseUKFmc = np.zeros((4,MC))
@@ -54,14 +53,13 @@ for mc in range(MC):
     # Create ground truth
     # ^^^^^^^^^^^^^^^^^^^
     #
-    
-    
+
     transition_model = CombinedLinearGaussianTransitionModel([ConstantVelocity(0.05),
                                                               ConstantVelocity(0.05)])
     timesteps = [start_time]
     truth = GroundTruthPath([GroundTruthState([50, 1, 1, 1], timestamp=timesteps[0])])
-    
-    
+
+
     for k in range(1, 21):
         timesteps.append(start_time+timedelta(seconds=k))
         truth.append(GroundTruthState(
